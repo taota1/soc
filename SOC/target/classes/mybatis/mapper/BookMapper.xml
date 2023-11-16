@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taotao.dao.BookDao">
+
+
+    <insert id="insertSelective" parameterType="book">
+            insert into soc.book(name,price,author,press,img)
+            values(#{name},#{price},#{author},#{press},#{img});
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="book">
+        update soc.book
+        set name=#{name},price=#{price},author=#{author},press=#{press},img=#{img}
+        where id=#{id};
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="int">
+    delete
+     from soc.book
+     where id=#{id};
+    </delete>
+
+    <select id="findBySearch" resultType="com.taotao.pojo.Book">
+        select * from book
+        <where>
+            <if test="params != null and params.name != null and params.name != ''">
+                and name like concat('%', #{ params.name }, '%')
+            </if>
+            <if test="params != null and params.author != null and params.author != ''">
+                and author like concat('%', #{ params.author }, '%')
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+</mapper>
